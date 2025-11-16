@@ -21,16 +21,33 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     //output
     public onInput      = output<string | number>();
     public onKeyupEnter = output<string | number>();
+    public onClear      = output<void>();
+    public onSearch     = output<string | number>();
+    public onReady      = output<void>();
+    public onDestroy    = output<void>();
 
     //input
-    public label         = input<string>('');
-    public placeholder   = input<string>('');
-    public isLoading     = input<boolean>(false); 
-    public isReadonly    = input<boolean>(false);
-    public isInvisible   = input<boolean>(false);
-    public isHidden      = input<boolean>(false);
-    public selectOnFocus = input<boolean>(true);  
-    public textPosition  = input<'left' | 'center' | 'right'>('left'); 
+    public label            = input<string>('');
+    public placeholder      = input<string>('');
+    public isLoading        = input<boolean>(false); 
+    public isReadonly       = input<boolean>(false);
+    public isInvisible      = input<boolean>(false);
+    public isHidden         = input<boolean>(false);
+    public selectOnFocus    = input<boolean>(true);  
+    public textPosition     = input<'left' | 'center' | 'right'>('left'); 
+    public minLength        = input<number | string>(0);
+    public maxLength        = input<number | string>(50);
+    public showClearButton  = input<boolean>(false);
+    public showSearchButton = input<boolean>(false);
+    public isInvalid        = input<boolean>(false);
+    public isValid          = input<boolean>(false); 
+    public width            = input<string>('');
+    public minWidth         = input<string>('100px');
+    public maxWidth         = input<string>('100%'); 
+    public marginTop        = input<string>('0px');
+    public marginRight      = input<string>('0px');
+    public marginBottom     = input<string>('0px');
+    public marginLeft       = input<string>('0px');
 
     //AfterViewInit
     async ngAfterViewInit() {
@@ -41,6 +58,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
         this._element.addEventListener('paste', this._onPaste);
         this._element.addEventListener('focus', this._onFocus);
         this._element.addEventListener('blur', this._onBlur);
+        this.onReady.emit();
     }
 
 
@@ -51,6 +69,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
         this._element.removeEventListener('paste', this._onPaste);
         this._element.removeEventListener('focus', this._onFocus);
         this._element.removeEventListener('blur', this._onBlur);
+        this.onDestroy.emit();
     } 
 
 
@@ -66,6 +85,11 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     //computed
     protected _paddingRight = computed<string>(() => {
         let padding = 10;
+        const clearOrSearch = (this._showClearIcon || this._showSearchIcon);
+        const validOrInvalid = (this.isValid() || this.isInvalid());   
+              
+        if(clearOrSearch && validOrInvalid) padding = 50;
+        else if (clearOrSearch || validOrInvalid) padding = 25;
         return `${padding}px`;
     });
 
@@ -73,6 +97,22 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     //getter
     protected get _label(): string {
         return this.IsOnlyWhiteSpace(this.label()) ? this.placeholder(): this.label();
+    } 
+
+
+    //getter
+    protected get _showClearIcon() {
+        return this.showClearButton()
+            && this.isEnabled 
+            && this.IsNotOnlyWhiteSpace(this._value) 
+    }
+
+
+    //getter
+    protected get _showSearchIcon() {
+        return this.showSearchButton()
+            && !this._showClearIcon
+            && this.isEnabled
     }
 
 
@@ -126,5 +166,19 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     public Blur(): void {      
         this._element.blur();  
         this._isFocused = false;
+    }
+
+    /** */
+    public Clear(): void {
+        this.setValue('');
+        this.Focus(false);
+        this.onClear.emit();
+    }
+
+    /** */
+    protected _ClickSearch(): void {         
+        if (this.showClearButton()) this.Focus();
+        else this.Blur();
+        this.onSearch.emit(this._value);
     }
 }

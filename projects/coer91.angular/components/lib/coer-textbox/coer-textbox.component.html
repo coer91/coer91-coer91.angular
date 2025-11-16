@@ -1,10 +1,18 @@
 <div class="coer-textbox">
     <div [ngClass]="{ 
-        'readonly' : isReadonly() && !isInvisible(),
-        'invisible': isInvisible() 
+        'readonly'    : isReadonly() && !isInvisible(),
+        'invisible'   : isInvisible(),
+        'display-none': isHidden() 
     }"
     [ngStyle]="{
-        'padding-right': _paddingRight() 
+        'padding-right': _paddingRight(), 
+        'width'        : width(),
+        'min-width'    : minWidth(),
+        'max-width'    : maxWidth(),
+        'margin-top'   : marginTop(),
+        'margin-right' : marginRight(),
+        'margin-bottom': marginBottom(),
+        'margin-left'  : marginLeft()  
     }">
 
         @if(isInvisible()) {
@@ -23,7 +31,9 @@
                 [id]="_id"
                 [name]="_id"
                 [value]="_value"
-                [readOnly]="!isEnabled"
+                [disabled]="!isEnabled"
+                [minLength]="minLength()"
+                [maxLength]="maxLength()"
                 [placeholder]="IsOnlyWhiteSpace(this.label()) ? placeholder() : ''"
                 (input)="setValue(component.value)" 
                 [ngStyle]="{
@@ -36,10 +46,40 @@
             }       
             
             @if(IsNotOnlyWhiteSpace(this.label())) {
-                <label [for]="_id" [ngClass]="{ 'focus': (_isFocused || IsNotOnlyWhiteSpace(_value)) }"> 
+                <label [for]="_id" [ngClass]="{ 'focus': (_isFocused || IsNotOnlyWhiteSpace(_value)), 'color-primary': _isFocused }"> 
                     {{ _label }} 
                 </label>
             }
+
+            @if(_paddingRight() != '10px') {
+                <span class="icon-container">
+                    @if(isInvalid() && isEnabled) {
+                        <span>
+                            <i class="i91-circle-exclamation-fill color-red"></i>
+                        </span>
+                    }
+        
+                    @else if(isValid() && isEnabled) {
+                        <span>
+                            <i class="i91-circle-check-fill color-green"></i>
+                        </span>
+                    }
+    
+                    @if(_showSearchIcon) {
+                        <span (click)="_ClickSearch()">
+                            <i class="i91-magnifying-glass"></i>
+                        </span>
+                    }
+        
+                    @else if(_showClearIcon) {
+                        <span (click)="Clear()">
+                            <i class="i91-x font-size-normal"></i>
+                        </span>
+                    } 
+                </span>
+            }
         }
+
+        <div [ngClass]="{ 'line': true, 'focus': _isFocused }"></div>
     </div>
-</div> 
+</div>  

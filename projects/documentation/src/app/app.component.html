@@ -1,39 +1,31 @@
-<h1>hola</h1>
-<coer-textbox
-    #ddddddd
-    [(ngModel)]="test"
-    [isReadonly]="false"
-    [isLoading]="false"
-    [selectOnFocus]="true"
-    (onInput)="Log('onInput', $event)"    
-    placeholder="test"
-    (onKeyupEnter)="Log('onKeyupEnter', $event)"
-></coer-textbox>
+<h1>hola</h1> 
 
-<coer-textbox
-     label="test"
-    [(ngModel)]="test2" 
-    (onInput)="Log('onInput', $event)"    
-    (onKeyupEnter)="Log('onKeyupEnter', $event)" 
-></coer-textbox>
+<div class="container-section">
+    <coer-textbox
+        label="test" 
+        [(ngModel)]="test"  
+        [showSearchButton]="false"
+        [showClearButton]="true"
+        [isValid]="false"
+        [isInvalid]="false"
+        (onInput)="Log('onInput', $event)"    
+        (onKeyupEnter)="Log('onKeyupEnter', $event)" 
+        marginTop="5px"
+    ></coer-textbox> 
 
-<coer-textbox
-     
-    [(ngModel)]="test3"
-    [isReadonly]="false"
-    [isLoading]="false"
-    [isInvisible]="true"
-    (onInput)="Log('onInput', $event)"    
-    (onKeyupEnter)="Log('onKeyupEnter', $event)"
-></coer-textbox>
+    <coer-textbox
+        label="test" 
+        [(ngModel)]="test"  
+        [showSearchButton]="false"
+        [showClearButton]="true"
+        [isValid]="false"
+        [isInvalid]="false"
+        [isReadonly]="true"
+        (onInput)="Log('onInput', $event)"    
+        (onKeyupEnter)="Log('onKeyupEnter', $event)" 
+        marginTop="5px"
+    ></coer-textbox> 
 
-<coer-textbox
-     
-    [(ngModel)]="test4"
-    [isReadonly]="false"
-    [isLoading]="true"
-    (onInput)="Log('onInput', $event)"    
-    (onKeyupEnter)="Log('onKeyupEnter', $event)"
-></coer-textbox>
+</div>
 
 {{ test }}

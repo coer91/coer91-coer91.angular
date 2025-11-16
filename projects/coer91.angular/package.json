@@ -11,6 +11,7 @@
     "url": ""
   },
   "dependencies": { 
+    "coer91.styles": "^0.0.14",
     "coer91.tools": "^0.0.31"
   },
   "peerDependencies": {
