@@ -1,0 +1,28 @@
+{
+  "name": "coer91.angular",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "build": "ng build"
+  },
+  "dependencies": {
+    "@angular/common": "^20.3.0",
+    "@angular/compiler": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "@angular/forms": "^20.3.0",
+    "@angular/platform-browser": "^20.3.0",
+    "@angular/router": "^20.3.0",
+    "coer91.styles": "^0.0.12",
+    "coer91.tools": "^0.0.31",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "^0.15.1"
+  },
+  "devDependencies": {
+    "@angular/build": "^20.3.10",
+    "@angular/cli": "^20.3.10",
+    "@angular/compiler-cli": "^20.3.0",
+    "ng-packagr": "^20.3.0",
+    "typescript": "~5.9.2"
+  }
+}

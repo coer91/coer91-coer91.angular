@@ -1,0 +1,45 @@
+<div class="coer-textbox">
+    <div [ngClass]="{ 
+        'readonly' : isReadonly() && !isInvisible(),
+        'invisible': isInvisible() 
+    }"
+    [ngStyle]="{
+        'padding-right': _paddingRight() 
+    }">
+
+        @if(isInvisible()) {
+            <input type="text" 
+                #component
+                [id]="_id"
+                [name]="_id"
+                [value]="_value"
+                [readOnly]="true" 
+            />
+        }
+    
+        @else {
+            <input type="text" 
+                #component
+                [id]="_id"
+                [name]="_id"
+                [value]="_value"
+                [readOnly]="!isEnabled"
+                [placeholder]="IsOnlyWhiteSpace(this.label()) ? placeholder() : ''"
+                (input)="setValue(component.value)" 
+                [ngStyle]="{
+                    'text-align': textPosition()
+                }"
+            />
+        
+            @if(isLoading() && !isInvisible()) {
+                <div class="loading border-radius-inherit"></div>
+            }       
+            
+            @if(IsNotOnlyWhiteSpace(this.label())) {
+                <label [for]="_id" [ngClass]="{ 'focus': (_isFocused || IsNotOnlyWhiteSpace(_value)) }"> 
+                    {{ _label }} 
+                </label>
+            }
+        }
+    </div>
+</div> 
