@@ -11,6 +11,9 @@
         (onInput)="Log('onInput', $event)"    
         (onKeyupEnter)="Log('onKeyupEnter', $event)" 
         marginTop="5px"
+        marginBottom="10px"
+        marginLeft="15px"
+        marginRight="30px"
     ></coer-textbox> 
 
     <coer-textbox
@@ -19,8 +22,8 @@
         [showSearchButton]="false"
         [showClearButton]="true"
         [isValid]="false"
-        [isInvalid]="false"
-        [isReadonly]="true"
+        [isInvalid]="false" 
+        maxWidth="100px"
         (onInput)="Log('onInput', $event)"    
         (onKeyupEnter)="Log('onKeyupEnter', $event)" 
         marginTop="5px"
