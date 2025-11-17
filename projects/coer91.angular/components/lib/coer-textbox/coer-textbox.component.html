@@ -1,4 +1,4 @@
-<div class="coer-textbox">
+<div class="coer-textbox animation-fadeIn">
     <div [ngClass]="{ 
         'readonly'    : isReadonly() && !isInvisible(),
         'invisible'   : isInvisible(),
@@ -36,9 +36,7 @@
                 [maxLength]="maxLength()"
                 [placeholder]="IsOnlyWhiteSpace(this.label()) ? placeholder() : ''"
                 (input)="setValue(component.value)" 
-                [ngStyle]="{
-                    'text-align': textPosition()
-                }"
+                [ngStyle]="{ 'text-align': textPosition() }" 
             />
         
             @if(isLoading() && !isInvisible()) {
@@ -46,22 +44,25 @@
             }       
             
             @if(IsNotOnlyWhiteSpace(this.label())) {
-                <label [for]="_id" [ngClass]="{ 'focus': (_isFocused || IsNotOnlyWhiteSpace(_value)), 'color-primary': _isFocused }"> 
-                    {{ _label }} 
-                </label>
+                <label [for]="_id" 
+                    [ngClass]="{ 
+                        'focus'        : (_isFocused || IsNotOnlyWhiteSpace(_value)), 
+                        'color-primary': (_isFocused && !isInvalid()),
+                        'color-danger' : isInvalid()
+                    }">{{ _label }}</label>
             }
 
             @if(_paddingRight() != '10px') {
                 <span class="icon-container">
                     @if(isInvalid() && isEnabled) {
                         <span>
-                            <i class="i91-circle-exclamation-fill color-red"></i>
+                            <i class="i91-circle-exclamation-fill font-size-normal color-red"></i>
                         </span>
                     }
         
                     @else if(isValid() && isEnabled) {
                         <span>
-                            <i class="i91-circle-check-fill color-green"></i>
+                            <i class="i91-circle-check-fill font-size-normal color-green"></i>
                         </span>
                     }
     
@@ -80,6 +81,6 @@
             }
         }
 
-        <div [ngClass]="{ 'line': true, 'focus': _isFocused }"></div>
+        <div [ngClass]="{ 'line': true, 'focus': _isFocused, 'isInvalid': isInvalid() }"></div>
     </div>
-</div>  
+</div>   

@@ -14,8 +14,8 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     protected override _value: string | number = '';
 
     //Variables
-    protected _id = Tools.GetGuid("coer-textbox");
-    protected _element!: HTMLInputElement;
+    protected readonly _id = Tools.GetGuid("coer-textbox");
+    protected _htmlElement!: HTMLInputElement; 
     protected _isFocused: boolean = false; 
 
     //output
@@ -33,7 +33,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     public isReadonly       = input<boolean>(false);
     public isInvisible      = input<boolean>(false);
     public isHidden         = input<boolean>(false);
-    public selectOnFocus    = input<boolean>(true);  
+    public selectOnFocus    = input<boolean>(false);  
     public textPosition     = input<'left' | 'center' | 'right'>('left'); 
     public minLength        = input<number | string>(0);
     public maxLength        = input<number | string>(50);
@@ -52,23 +52,23 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     //AfterViewInit
     async ngAfterViewInit() {
         await Tools.Sleep();
-        this._element = HTMLElements.GetElementById(this._id) as HTMLInputElement;
-        this._element.addEventListener('input', this._onInput);
-        this._element.addEventListener('keyup', this._onKeyup);
-        this._element.addEventListener('paste', this._onPaste);
-        this._element.addEventListener('focus', this._onFocus);
-        this._element.addEventListener('blur', this._onBlur);
+        this._htmlElement = HTMLElements.GetElementById(this._id) as HTMLInputElement;
+        this._htmlElement.addEventListener('input', this._onInput);
+        this._htmlElement.addEventListener('keyup', this._onKeyup);
+        this._htmlElement.addEventListener('paste', this._onPaste);
+        this._htmlElement.addEventListener('focus', this._onFocus);
+        this._htmlElement.addEventListener('blur', this._onBlur);
         this.onReady.emit();
     }
 
 
     //OnDestroy
     ngOnDestroy() {
-        this._element.removeEventListener('input', this._onInput);
-        this._element.removeEventListener('keyup', this._onKeyup);
-        this._element.removeEventListener('paste', this._onPaste);
-        this._element.removeEventListener('focus', this._onFocus);
-        this._element.removeEventListener('blur', this._onBlur);
+        this._htmlElement.removeEventListener('input', this._onInput);
+        this._htmlElement.removeEventListener('keyup', this._onKeyup);
+        this._htmlElement.removeEventListener('paste', this._onPaste);
+        this._htmlElement.removeEventListener('focus', this._onFocus);
+        this._htmlElement.removeEventListener('blur', this._onBlur);
         this.onDestroy.emit();
     } 
 
@@ -141,6 +141,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     private _onFocus = () => {
         if(!this.isEnabled) this.Blur(); 
         if(this.selectOnFocus() === true) this.Focus(true);
+        this._isFocused = true;
     } 
 
     /** */
@@ -156,15 +157,16 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
         }
         
         Tools.Sleep().then(() => {
-            this._element.focus();
-            if(select) this._element.select();
+            this._htmlElement.focus();
+            if(select) this._htmlElement.select();
+            this.ScrollToElement();
             this._isFocused = true;
         }); 
     }
 
     /** */
     public Blur(): void {      
-        this._element.blur();  
+        this._htmlElement.blur();  
         this._isFocused = false;
     }
 
@@ -180,5 +182,10 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
         if (this.showClearButton()) this.Focus();
         else this.Blur();
         this.onSearch.emit(this._value);
+    } 
+
+    /** */
+    public ScrollToElement(): void {
+        HTMLElements.ScrollToElement(this._htmlElement); 
     }
 }
