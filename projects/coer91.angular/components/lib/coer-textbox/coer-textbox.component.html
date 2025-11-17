@@ -48,7 +48,7 @@
                     [ngClass]="{ 
                         'focus'        : (_isFocused || IsNotOnlyWhiteSpace(_value)), 
                         'color-primary': (_isFocused && !isInvalid()),
-                        'color-danger' : isInvalid()
+                        'color-danger' : (isInvalid() && isEnabled)
                     }">{{ _label }}</label>
             }
 
@@ -81,6 +81,6 @@
             }
         }
 
-        <div [ngClass]="{ 'line': true, 'focus': _isFocused, 'isInvalid': isInvalid() }"></div>
+        <div [ngClass]="{ 'line': true, 'focus': _isFocused, 'isInvalid': (isInvalid() && isEnabled) }"></div>
     </div>
 </div>   

@@ -47,7 +47,11 @@ div.coer-accordion > div {
     div.coer-accordion-body {
         border-radius: 0px 0px 5px 5px !important;  
         height: calc(100% - 35px) !important; 
-        transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out; 
+        
+        div {
+            position: relative;
+        }
     }
 
     //primary

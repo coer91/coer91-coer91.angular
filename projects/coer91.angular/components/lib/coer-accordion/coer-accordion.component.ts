@@ -29,6 +29,7 @@ export class CoerAccordion implements AfterViewInit, OnDestroy {
     public bodyColor     = input<boolean>(false);
     public collapsed     = input<boolean>(false);
     public isReadonly    = input<boolean>(false);
+    public isLoading     = input<boolean>(false);
     public scrollOnOpen  = input<boolean>(false);
     public minWidth      = input<string>('100px');
     public maxWidth      = input<string>('100%');  

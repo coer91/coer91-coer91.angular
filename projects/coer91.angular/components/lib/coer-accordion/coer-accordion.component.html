@@ -36,9 +36,13 @@
                 'min-height' : (_isCollapsed() ? '0px'    : `calc(${_minHeight()} - 35px)`),
                 'max-height' : (_isCollapsed() ? '0px'    : `calc(${_maxHeight()} - 35px)`),
                 'padding'    : padding()
-            }">
+            }"> 
             <div [ngClass]="{ 'display-none': _isCollapsed() }">
                 <ng-content></ng-content>
+
+                @if(isLoading()) {
+                    <div class="loading border-radius-inherit"></div>
+                } 
             </div>
         </div>         
     </div>
