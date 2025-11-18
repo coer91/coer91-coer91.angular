@@ -32,7 +32,7 @@
         
         <div class="coer-accordion-body" [class]="bodyColor() ? 'coer-accordion-body-' + type() : 'coer-accordion-body-light'"
             [ngStyle]="{ 
-                'overflow'   : (_isCollapsed() ? 'hidden' : 'auto'), 
+                'overflow'   : (_isCollapsed() || isLoading() ? 'hidden' : 'auto'), 
                 'min-height' : (_isCollapsed() ? '0px'    : `calc(${_minHeight()} - 35px)`),
                 'max-height' : (_isCollapsed() ? '0px'    : `calc(${_maxHeight()} - 35px)`),
                 'padding'    : padding()
@@ -41,9 +41,12 @@
                 <ng-content></ng-content>
 
                 @if(isLoading()) {
-                    <div class="loading border-radius-inherit"></div>
+                    <div class="loading">
+                        <i class="i91-arrows-rotate animation-spin animation-speed-15"></i>
+                        <span>Loading</span>
+                    </div>
                 } 
-            </div>
-        </div>         
+            </div> 
+        </div>   
     </div>
 </div>    

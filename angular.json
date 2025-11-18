@@ -50,7 +50,7 @@
             "assets": [{ "glob": "**/*", "input": "projects/documentation/public"}],
             "styles": [
               "node_modules/coer91.styles/dist/coer91.styles.css",
-              "projects/documentation/styles.scss"
+              "projects/coer91.angular/index.scss"
             ]
           },
           "configurations": {

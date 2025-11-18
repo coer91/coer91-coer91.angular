@@ -48,11 +48,20 @@ div.coer-accordion > div {
         border-radius: 0px 0px 5px 5px !important;  
         height: calc(100% - 35px) !important; 
         transition: all 0.3s ease-in-out; 
-        
-        div {
-            position: relative;
+        position: relative;
+
+        div.loading {
+            border-radius: inherit !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 20px !important;
+            font-weight: bold !important;
+            color: var(--gray) !important;
+            i { font-size: 30px !important; }
         }
-    }
+    } 
 
     //primary
     div.coer-accordion-header-primary {

@@ -1,5 +1,5 @@
-<div class="coer-textbox animation-fadeIn">
-    <div [ngClass]="{ 
+<div class="coer-selectbox animation-fadeIn">
+    <div [id]="_id + '-container'" [ngClass]="{ 
         'readonly'    : isReadonly() && !isInvisible(),
         'invisible'   : isInvisible(),
         'display-none': isHidden() 
@@ -52,35 +52,43 @@
                     }">{{ _label }}</label>
             }
 
-            @if(_paddingRight() != '10px') {
-                <span class="icon-container">
-                    @if(isInvalid() && isEnabled) {
-                        <span>
-                            <i class="i91-circle-exclamation-fill font-size-normal color-red"></i>
-                        </span>
-                    }
+            
+            <span class="icon-container">
+                @if(_showClearButton) {
+                    <span (click)="Clear()">
+                        <i class="i91-x font-size-normal"></i>
+                    </span>
+                } 
+
+                @else if(isInvalid() && isEnabled) {
+                    <span>
+                        <i class="i91-circle-exclamation-fill font-size-normal color-red"></i>
+                    </span>
+                }
         
-                    @else if(isValid() && isEnabled) {
-                        <span>
-                            <i class="i91-circle-check-fill font-size-normal color-green"></i>
-                        </span>
-                    }
-    
-                    @if(_showSearchButton) {
-                        <span (click)="_ClickSearch()">
-                            <i class="i91-magnifying-glass"></i>
-                        </span>
-                    }
-        
-                    @else if(_showClearButton) {
-                        <span (click)="Clear()">
-                            <i class="i91-x font-size-normal"></i>
-                        </span>
-                    } 
-                </span>
-            }
+                @else if(isValid() && isEnabled) {
+                    <span>
+                        <i class="i91-circle-check-fill font-size-normal color-green"></i>
+                    </span>
+                } 
+
+                @if(isEnabled) {
+                    <span (click)="Toggle()">
+                        <i class="i91-angle-up font-size-30px" [ngClass]="{ 'i91-180deg': !_isCollapsed() }"></i>
+                    </span>  
+                }
+            </span>
         }
 
         <div [ngClass]="{ 'line': true, 'focus': _isFocused, 'isInvalid': (isInvalid() && isEnabled) }"></div>
+
+        <ul [ngStyle]="{ 'max-height' : (_isCollapsed() ? '0px' : '175px') }">
+            @for(item of _dataSource(); track item.index) {
+                <li> 
+                    <i></i>
+                    <span>{{ GetDisplay(item) }}</span>    
+                </li>
+            }
+        </ul>
     </div>
 </div>   

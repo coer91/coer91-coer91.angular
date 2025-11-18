@@ -85,7 +85,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     //computed
     protected _paddingRight = computed<string>(() => {
         let padding = 10;
-        const clearOrSearch = (this._showClearIcon || this._showSearchIcon);
+        const clearOrSearch = (this._showClearButton || this._showSearchButton);
         const validOrInvalid = (this.isValid() || this.isInvalid());   
               
         if(clearOrSearch && validOrInvalid) padding = 50;
@@ -101,7 +101,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
 
 
     //getter
-    protected get _showClearIcon() {
+    protected get _showClearButton() {
         return this.showClearButton()
             && this.isEnabled 
             && this.IsNotOnlyWhiteSpace(this._value) 
@@ -109,9 +109,9 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
 
 
     //getter
-    protected get _showSearchIcon() {
+    protected get _showSearchButton() {
         return this.showSearchButton()
-            && !this._showClearIcon
+            && !this._showClearButton
             && this.isEnabled
     }
 
@@ -139,9 +139,12 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
 
     /** */
     private _onFocus = () => {
-        if(!this.isEnabled) this.Blur(); 
-        if(this.selectOnFocus() === true) this.Focus(true);
-        this._isFocused = true;
+        if(this.isEnabled) {
+            if(this.selectOnFocus() === true) this.Focus(true);
+            this._isFocused = true;
+        }
+
+        else this.Blur(); 
     } 
 
     /** */
@@ -151,17 +154,16 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
 
     /** */
     public Focus(select: boolean = false): void {
-        if(!this.isEnabled) {
-            this.Blur();
-            return;
+        if(this.isEnabled) {
+            Tools.Sleep().then(() => {
+                this._htmlElement.focus();
+                if(select) this._htmlElement.select();
+                this.ScrollToElement();
+                this._isFocused = true;
+            });            
         }
         
-        Tools.Sleep().then(() => {
-            this._htmlElement.focus();
-            if(select) this._htmlElement.select();
-            this.ScrollToElement();
-            this._isFocused = true;
-        }); 
+        else this.Blur(); 
     }
 
     /** */

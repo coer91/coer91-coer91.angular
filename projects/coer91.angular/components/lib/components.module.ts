@@ -5,7 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //Components 
 import { CoerAccordion } from './coer-accordion/coer-accordion.component';
-import { CoerTextBox } from './coer-textbox/coer-textbox.component';
+import { CoerSelectBox } from './coer-selectbox/coer-selectbox.component';
+import { CoerTextBox   } from './coer-textbox/coer-textbox.component';
 
 @NgModule({
     imports: [
@@ -16,10 +17,12 @@ import { CoerTextBox } from './coer-textbox/coer-textbox.component';
     ],
     declarations: [ 
         CoerAccordion,
+        CoerSelectBox,
         CoerTextBox
     ],
     exports: [ 
         CoerAccordion,
+        CoerSelectBox,
         CoerTextBox
     ]
 })

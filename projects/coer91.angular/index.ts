@@ -22,6 +22,7 @@ import * as components from '@library/components';
         FormsModule,
         ReactiveFormsModule,
         components.CoerAccordion,
+        components.CoerSelectBox,
         components.CoerTextBox,
     ]
 })

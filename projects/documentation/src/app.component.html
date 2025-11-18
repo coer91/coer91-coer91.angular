@@ -1,6 +1,6 @@
 <h1>hola</h1> 
 
-<div class="container-section">
+<div class="container-section width-300px">
     <coer-textbox 
         #dddsdddd
         [(ngModel)]="test4"
@@ -8,11 +8,21 @@
         label="eee"
         [isLoading]="true"
     ></coer-textbox>
-</div> 
+</div>
+
+<div class="container-section width-300px"> 
+    <coer-selectbox 
+        #sele
+        [(ngModel)]="test4"
+        [isInvalid]="false"
+        label="eee"
+        [isLoading]="false"
+    ></coer-selectbox>
+</div>  
 
  
-<coer-accordion #ddddddd title="Hello world" icon="i91-circle-exclamation-fill" [isLoading]="true">
+<!-- <coer-accordion #ddddddd title="Hello world" icon="i91-circle-exclamation-fill" [isLoading]="true">
     <div style="height: 10000px;"></div>
-</coer-accordion> 
+</coer-accordion>  -->
 
 

@@ -4,7 +4,9 @@
   "scripts": {
     "ng": "ng",
     "build": "ng build",
-    "server": "ng serve"
+    "server": "ng serve",
+    "build:css": "sass --no-source-map --style=compressed projects/coer91.angular/styles.scss ./dist/coer91.angular/styles.scss",
+    "build:lib": "ng build mycore & npm run build:css"
   },
   "dependencies": {
     "@angular/common": "^20.3.0",
