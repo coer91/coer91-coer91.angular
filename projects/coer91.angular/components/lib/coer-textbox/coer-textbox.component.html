@@ -46,7 +46,7 @@
             @if(IsNotOnlyWhiteSpace(this.label())) {
                 <label [for]="_id" 
                     [ngClass]="{ 
-                        'focus'        : (_isFocused || IsNotOnlyWhiteSpace(_value)), 
+                        'focus'        : (_isFocused || IsNotOnlyWhiteSpace(_value)),  
                         'color-primary': (_isFocused && !isInvalid()),
                         'color-danger' : (isInvalid() && isEnabled)
                     }">{{ _label }}</label>

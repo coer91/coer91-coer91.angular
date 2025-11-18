@@ -16,10 +16,10 @@ export class AppComponent {
     protected readonly dddsdddd = viewChild.required<CoerTextBox>('dddsdddd'); 
     protected test2 = true;
     protected test3 = '';
-    protected test4 = '';
+    protected test4 = { id: 1,  name: 'Holfffffffffffeeeeeeeeeee' };
 
 
-    Log(event: string, value?: any) {
+    Log(event: any, value?: any) {
         console.log({ event, value })
     }
 

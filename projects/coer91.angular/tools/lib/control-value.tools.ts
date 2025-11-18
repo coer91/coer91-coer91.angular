@@ -13,9 +13,9 @@ export const CONTROL_VALUE = <T>(component: T) => {
 export abstract class ControlValue {
 
     //Variables
-    private _isTouched: boolean = false;
-    private _IsTouched!: Function;
-    private _UpdateValue!: Function;
+    protected _isTouched: boolean = false;
+    protected _IsTouched!: Function;
+    protected _UpdateValue!: Function;
 
     protected IsNull              = Tools.IsNull;
     protected IsNotNull           = Tools.IsNotNull;

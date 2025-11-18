@@ -103,7 +103,8 @@ div.coer-selectbox > div {
         right: 0px !important;
         border-radius: 0px 0px 5px 5px !important; 
         overflow: auto !important;
-        transition: max-height 0.3s ease-in-out; 
+        transition: max-height 0.3s ease-in-out !important;
+        z-index: 10 !important; 
 
         li { 
             min-height: 24.2px !important;

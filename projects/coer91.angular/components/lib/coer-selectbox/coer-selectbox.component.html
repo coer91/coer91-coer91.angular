@@ -5,7 +5,7 @@
         'display-none': isHidden() 
     }"
     [ngStyle]="{
-        'padding-right': _paddingRight(), 
+        'padding-right': _paddingRight, 
         'width'        : width(),
         'min-width'    : minWidth(),
         'max-width'    : maxWidth(),
@@ -30,12 +30,12 @@
                 #component
                 [id]="_id"
                 [name]="_id"
-                [value]="_value"
+                [value]="_search()"
                 [disabled]="!isEnabled"
                 [minLength]="minLength()"
                 [maxLength]="maxLength()"
                 [placeholder]="IsOnlyWhiteSpace(this.label()) ? placeholder() : ''"
-                (input)="setValue(component.value)" 
+                (input)="_search.set(component.value)" 
                 [ngStyle]="{ 'text-align': textPosition() }" 
             />
         
@@ -55,8 +55,8 @@
             
             <span class="icon-container">
                 @if(_showClearButton) {
-                    <span (click)="Clear()">
-                        <i class="i91-x font-size-normal"></i>
+                    <span>
+                        <i class="i91-x font-size-normal" (click)="Clear()"></i>
                     </span>
                 } 
 
@@ -84,11 +84,11 @@
 
         <ul [ngStyle]="{ 'max-height' : (_isCollapsed() ? '0px' : '175px') }">
             @for(item of _dataSource(); track item.index) {
-                <li> 
+                <li (click)="_ClickOption(item)"> 
                     <i></i>
                     <span>{{ GetDisplay(item) }}</span>    
                 </li>
             }
         </ul>
     </div>
-</div>   
+</div>    
