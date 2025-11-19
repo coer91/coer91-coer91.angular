@@ -14,11 +14,12 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     protected override _value: T | null = null;
 
     //Variables
-    protected readonly _id = Tools.GetGuid("coer-selectbox");
-    protected readonly _effectValue!: EffectRef; 
+    protected readonly _id = Tools.GetGuid("coer-selectbox"); 
     protected readonly _isCollapsed = signal<boolean>(true); 
     protected readonly _search = signal<string>('');
     protected readonly _applySearch = signal<boolean>(false);
+    protected readonly _index = signal<number>(-1);
+    private _searchTimeOut$!: ReturnType<typeof setTimeout>;
     protected _htmlElementContainer!: HTMLInputElement; 
     protected _htmlElement!: HTMLInputElement; 
     protected _isHoverElement: boolean = false;
@@ -26,10 +27,9 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     protected _isLoading: boolean = false; 
 
     //output
-    public onInput       = output<string | number>();
-    public onKeyupEnter  = output<string | number>();
-    public onClear       = output<void>(); 
-    public onValueChange = output<T | null>();
+    public onInput       = output<T | null>();
+    public onKeyupEnter  = output<T | null>();
+    public onClear       = output<void>();  
     public onReady       = output<void>();
     public onDestroy     = output<void>();
 
@@ -54,25 +54,25 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     public marginTop        = input<string>('0px');
     public marginRight      = input<string>('0px');
     public marginBottom     = input<string>('0px');
-    public marginLeft       = input<string>('0px');
-
-    constructor() {
-        super();
-
-        this._effectValue = effect(() => { 
-             
-        });
-    }
+    public marginLeft       = input<string>('0px'); 
 
 
     /** Sets the value of the component */
-    protected override setValue(value: any): void {
+    protected override setValue(value: T | null): void {
+        if(Tools.IsNotNull(value)) {
+            if(Tools.HasProperty(value, this.displayProperty())) {                 
+                value = this.dataSource().find((item: any) => String(item[this.displayProperty()]).equals((value as any)[this.displayProperty()])) || null;                 
+            }
+        }
+
         if(typeof this._UpdateValue === 'function') {
             this._UpdateValue(value); 
+            if(Tools.IsNull(value)) this.onClear.emit();
+            else this.onInput.emit(value);
         } 
          
         this._value = value;
-        this._UpdateSearch(value);  
+        this._ResetSearch(value);  
     }
 
 
@@ -83,8 +83,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
         this._htmlElementContainer.addEventListener('mouseenter', this._onMouseEnter);
         this._htmlElementContainer.addEventListener('mouseleave', this._onMouseLeave);
 
-        this._htmlElement = HTMLElements.GetElementById(this._id) as HTMLInputElement;
-        this._htmlElement.addEventListener('input', this._onInput);
+        this._htmlElement = HTMLElements.GetElementById(this._id) as HTMLInputElement; 
         this._htmlElement.addEventListener('keyup', this._onKeyup);
         this._htmlElement.addEventListener('paste', this._onPaste);
         this._htmlElement.addEventListener('focus', this._onFocus);
@@ -95,9 +94,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
 
 
     //OnDestroy
-    ngOnDestroy() {
-        this._effectValue?.destroy();
-        this._htmlElement.removeEventListener('input', this._onInput);
+    ngOnDestroy() { 
         this._htmlElement.removeEventListener('keyup', this._onKeyup);
         this._htmlElement.removeEventListener('paste', this._onPaste);
         this._htmlElement.removeEventListener('focus', this._onFocus);
@@ -109,12 +106,13 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
 
 
     //computed
-    protected _dataSource = computed<any[]>(() => {
-        return Collections.SetIndex(this.dataSource())
-            .filter((item: any) => Tools.IsNotOnlyWhiteSpace(this._search()) && this._applySearch()
+    protected _dataSource = computed<any[]>(() => { 
+        return Collections.SetIndex( 
+            this.dataSource().filter((item: any) => Tools.IsNotOnlyWhiteSpace(this._search()) && this._applySearch()
                 ? String(item[this.displayProperty()]).toUpperCase().includes(this._search().toUpperCase()) 
                 : true
-            );
+            )
+        );
     });
 
 
@@ -147,13 +145,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     //getter
     protected get _label(): string {
         return this.IsOnlyWhiteSpace(this.label()) ? this.placeholder(): this.label();
-    } 
-
-
-    /** */
-    private _onInput = () => {
-        
-    } 
+    }  
 
     /** */
     private _onKeyup = (event: KeyboardEvent) => {
@@ -161,32 +153,55 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
 
         if(['ArrowUp', 'ArrowDown'].includes(key)) {
             if(key === 'ArrowUp') {
-                console.log('ArrowUp')
+                const firstIndex = (this._dataSource().length <= 0) ? -1 : 0;
+
+                if((this._index() - 1) >= firstIndex) {
+                    this._index.update(index => index - 1);
+                }
+
+                else {
+                    this._index.set(-1);
+                    this._htmlElement.focus();
+                    this._htmlElement.select();
+                } 
             }
     
             if(key === 'ArrowDown') {
-                console.log('ArrowDown')
+                const lastIndex = (this._dataSource().length - 1);
+
+                if ((this._index() + 1) <= lastIndex) {
+                    this._index.update(index => index + 1);
+                } 
             }
-
+            
+            HTMLElements.ScrollToElement(`#${this._id}-index${this._index()}`); 
             return;
-        }
+        } 
 
-        this._applySearch.set(true); 
+        const selectedItem = this._dataSource().find(x => x.index == this._index()); 
+        this._applySearch.set(true);
 
-        if(key === 'Enter') { 
-            const item = this._dataSource().find((item: any) => String(item[this.displayProperty()]).equals(this._search()));
-            if(item) this.setValue(item);
+        if(['ArrowLeft', 'ArrowRight'].includes(key)) {
+            this._SetSearch(this._search());
+        } 
+
+        if(key === 'Enter') {            
+            if(selectedItem) this.setValue(selectedItem);
             this.Blur();
+            this.onKeyupEnter.emit(this._value);
         }
 
         if(key === 'Delete') { 
-            if(this._showClearButton) this.Clear();
-        }
+            if(this._showClearButton) {
+                this.Clear();
+                return;
+            }
+        } 
     } 
 
     /** */
     private _onPaste = () => {
-                
+        Tools.Sleep().then(() => this._search.set(this._search().trim()));               
     } 
 
     /** */
@@ -208,19 +223,25 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
 
 
     /** */
-    public async Focus(open: boolean = true) {
-        this._applySearch.set(Tools.IsOnlyWhiteSpace(this._value));
-
+    public async Focus(open: boolean = true) { 
         if(this.isEnabled) {
             this._isLoading = true;  
+            this._applySearch.set(false);
             await Tools.Sleep();             
             
             this._htmlElement.select();
             this._isCollapsed.set(false);  
             this._isFocused = true;
+                       
+            this.ScrollToElement();
             
-            //if(open) this._htmlElement.select();
-            this.ScrollToElement(); 
+            if(Tools.IsNotNull(this._value) && Tools.HasProperty(this._value, this.displayProperty())) {
+                const displayProperty = (this._value as any)[this.displayProperty()];
+                const index = this._dataSource().findIndex(item => String(item[this.displayProperty()]).equals(displayProperty));
+                this._index.set(index);  
+                HTMLElements.ScrollToElement(`#${this._id}-index${index}`);
+            }
+            
             this._isLoading = false; 
         }
         
@@ -236,6 +257,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
         this._htmlElement.blur();  
         this._isCollapsed.set(true); 
         this._isFocused = false;  
+        this._index.set(-1); 
 
         this._isLoading = false;  
     }
@@ -243,9 +265,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     /** */
     public Clear(): void {
         this.setValue(null);
-        this.Blur();  
-        this.onValueChange.emit(null);
-        this.onClear.emit();
+        this.Blur();    
     } 
 
     /** */
@@ -263,11 +283,25 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     /** */
     public ScrollToElement(): void {
         HTMLElements.ScrollToElement(this._htmlElement); 
-    }
+    } 
+
+
+    /** */ 
+    protected _SetSearch(value: string) {
+         
+        this._search.set(value);  
+
+        clearTimeout(this._searchTimeOut$);
+        this._searchTimeOut$ = setTimeout(() => {
+            const item = this._dataSource().find((item: any) => String(item[this.displayProperty()]).equals(value));
+            if(item && Tools.HasProperty(item, 'index')) this._index.set(item.index);
+            clearTimeout(this._searchTimeOut$);
+        }, 500);
+    } 
 
 
     /** */
-    protected _UpdateSearch(item: any) {
+    protected _ResetSearch(item: any) {
         this._search.set(Tools.IsNotOnlyWhiteSpace(item) ? (item as any)[this.displayProperty()] : '');  
     } 
 
@@ -277,10 +311,9 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
         this.Blur();        
         await Tools.Sleep();          
         this.setValue(item); 
-        this._UpdateSearch(item);   
+        this._ResetSearch(item);   
 
         const _item = { ...item };
-        if(Tools.HasProperty(_item, 'index')) delete _item['index'];
-        this.onValueChange.emit(_item);
+        if(Tools.HasProperty(_item, 'index')) delete _item['index']; 
     } 
 }

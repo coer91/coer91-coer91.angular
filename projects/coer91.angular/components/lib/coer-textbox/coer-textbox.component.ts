@@ -52,8 +52,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     //AfterViewInit
     async ngAfterViewInit() {
         await Tools.Sleep();
-        this._htmlElement = HTMLElements.GetElementById(this._id) as HTMLInputElement;
-        this._htmlElement.addEventListener('input', this._onInput);
+        this._htmlElement = HTMLElements.GetElementById(this._id) as HTMLInputElement; 
         this._htmlElement.addEventListener('keyup', this._onKeyup);
         this._htmlElement.addEventListener('paste', this._onPaste);
         this._htmlElement.addEventListener('focus', this._onFocus);
@@ -63,14 +62,25 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
 
 
     //OnDestroy
-    ngOnDestroy() {
-        this._htmlElement.removeEventListener('input', this._onInput);
+    ngOnDestroy() { 
         this._htmlElement.removeEventListener('keyup', this._onKeyup);
         this._htmlElement.removeEventListener('paste', this._onPaste);
         this._htmlElement.removeEventListener('focus', this._onFocus);
         this._htmlElement.removeEventListener('blur', this._onBlur);
         this.onDestroy.emit();
     } 
+
+
+    /** Sets the value of the component */
+    protected override setValue(value: string | number): void { 
+        if(typeof this._UpdateValue === 'function') {
+            this._UpdateValue(value); 
+            if(Tools.IsOnlyWhiteSpace(value)) this.onClear.emit();
+            this.onInput.emit(value);
+        } 
+         
+        this._value = value; 
+    }
 
 
     //getter
@@ -113,14 +123,8 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
         return this.showSearchButton()
             && !this._showClearButton
             && this.isEnabled
-    }
-
-
-    /** */
-    private _onInput = () => {
-        if(!this.isEnabled) return; 
-        this.onInput.emit(this._value);
     } 
+
 
     /** */
     private _onKeyup = (event: KeyboardEvent) => {

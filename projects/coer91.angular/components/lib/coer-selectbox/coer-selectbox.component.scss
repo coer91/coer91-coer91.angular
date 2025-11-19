@@ -126,9 +126,13 @@ div.coer-selectbox > div {
             border-bottom-color: transparent !important;
         }
   
-        li:hover {
+        li:not(.focus):hover {
             background-color: var(--hover);
             border-radius: 0px 0px 5px 5px !important;
+        }
+
+        li.focus {
+            background-color: var(--focus);
         }
     }
 }

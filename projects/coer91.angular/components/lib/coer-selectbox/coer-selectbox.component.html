@@ -35,7 +35,7 @@
                 [minLength]="minLength()"
                 [maxLength]="maxLength()"
                 [placeholder]="IsOnlyWhiteSpace(this.label()) ? placeholder() : ''"
-                (input)="_search.set(component.value)" 
+                (input)="_SetSearch(component.value)" 
                 [ngStyle]="{ 'text-align': textPosition() }" 
             />
         
@@ -84,8 +84,8 @@
 
         <ul [ngStyle]="{ 'max-height' : (_isCollapsed() ? '0px' : '175px') }">
             @for(item of _dataSource(); track item.index) {
-                <li (click)="_ClickOption(item)"> 
-                    <i></i>
+                <li [id]="_id + '-index' + item.index" [ngClass]="{ 'focus': _index() == item.index }" (click)="_ClickOption(item)"> 
+                    <i></i> 
                     <span>{{ GetDisplay(item) }}</span>    
                 </li>
             }
