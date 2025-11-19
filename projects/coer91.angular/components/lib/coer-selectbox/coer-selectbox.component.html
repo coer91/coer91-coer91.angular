@@ -74,7 +74,7 @@
 
                 @if(isEnabled) {
                     <span (click)="Toggle()">
-                        <i class="i91-angle-up font-size-30px" [ngClass]="{ 'i91-180deg': !_isCollapsed() }"></i>
+                        <i class="i91-angle-up font-size-30px" [ngClass]="{ 'i91-180deg': !_isCollapsed(), 'color-primary' : !_isCollapsed() }"></i>
                     </span>  
                 }
             </span>

@@ -1,6 +1,6 @@
 body {
-    background-color: var(--smoke);
-    margin: 0px;
+    background-color: var(--smoke) !important; 
+    margin: 0px !important;
 }
 
 * {
@@ -37,4 +37,4 @@ h1, h2, h3, h4, h5, h6, p, pre, hr, figure, fieldset, ul, ol {
 .scrollbar-invisible::-webkit-scrollbar { 
     width: 0px !important;
     height: 0px !important; 
-}
+} 

@@ -23,8 +23,11 @@ import * as components from '@library/components';
         FormsModule,
         ReactiveFormsModule,
         components.CoerAccordion,
+        components.CoerButton,
         components.CoerSelectBox,
+        components.CoerSidenav,
         components.CoerTextBox,
+        components.CoerToolbar,
     ]
 })
 export class coer91Module { } 

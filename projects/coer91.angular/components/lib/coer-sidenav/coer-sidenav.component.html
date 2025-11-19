@@ -1,0 +1,5 @@
+<nav class="coer-sidenav" [ngStyle]="{ transform: _isOpen() ? 'translateX(0px)' : 'translateX(-225px)' }">
+    <div [ngClass]="{ 'coer-sidenav-open': _isOpen() }">
+        <ng-content></ng-content>
+    </div>
+</nav> 

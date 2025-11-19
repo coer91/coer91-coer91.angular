@@ -1,0 +1,21 @@
+nav.coer-sidenav {    
+    position: absolute !important;
+    top: 40px !important;
+    left: 0px !important;
+    bottom: 0px !important;
+    right: 0px;
+    width: 225px !important; 
+    max-width: 225px !important; 
+    background-color: var(--dark) !important;   
+    transition: transform 0.5s ease !important;
+
+    div {
+       width: 100vw !important;
+       transform: translateX(225px) !important;
+       transition: width 0.5s ease !important;
+    }
+
+    div.coer-sidenav-open {
+        width: calc(100vw - 225px) !important;        
+    }
+}

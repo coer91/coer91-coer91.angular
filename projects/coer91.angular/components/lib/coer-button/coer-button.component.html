@@ -1,0 +1,28 @@
+<div class="coer-button animation-fadeIn" 
+    [ngStyle]="{
+        'width'        : _width(),
+        'min-width'    : _minWidth(),
+        'max-width'    : _maxWidth(),
+        'height'       : _height(),
+        'min-height'   : _minHeight(),
+        'max-height'   : _maxHeight()       
+    }">    
+    <button type="button"
+        [class]="`${_backgroundColor()} ${_color()}`"
+        [ngClass]="{
+            'button-hover-primary'    : this.color().equals('primary'),
+            'button-hover-secondary'  : this.color().equals('secondary'),
+            'button-hover-success'    : this.color().equals('success'),
+            'button-hover-warning'    : this.color().equals('warning'),
+            'button-hover-danger'     : this.color().equals('danger'),
+            'button-hover-navigation' : this.color().equals('navigation'),
+            'button-hover-information': this.color().equals('information'),
+            'button-hover-dark'       : this.color().equals('dark'),
+            'button-hover-light'      : this.color().equals('light')
+        }"
+        [ngStyle]="{ 
+            'border-radius': _borderRadius(),
+            'cursor'       : _cursor()      
+        }"        
+    >{{ _label() }}</button>
+</div>    

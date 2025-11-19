@@ -1,0 +1,52 @@
+@mixin hover-shadown($color) { 
+    box-shadow: 0px 0px 10px -2px $color;
+}
+
+div.coer-button {    
+    button { 
+        border: none !important; 
+        width: inherit !important;
+        min-width: inherit !important;
+        max-width: inherit !important;
+        height: inherit !important;
+        min-height: inherit !important;
+        max-height: inherit !important;  
+        font-weight: bold !important;
+    }
+
+    button.button-hover-primary:hover {
+        @include hover-shadown(var(--primary));
+    }
+
+    button.button-hover-secondary:hover {
+        @include hover-shadown(var(--secondary));
+    }
+
+    button.button-hover-success:hover {
+        @include hover-shadown(var(--success));
+    }
+
+    button.button-hover-warning:hover {
+        @include hover-shadown(var(--warning));
+    }
+
+    button.button-hover-danger:hover {
+        @include hover-shadown(var(--danger));
+    }
+
+    button.button-hover-navigation:hover {
+        @include hover-shadown(var(--navigation));
+    }
+
+    button.button-hover-information:hover {
+        @include hover-shadown(var(--information));
+    }
+
+    button.button-hover-dark:hover {
+        @include hover-shadown(var(--dark));
+    }
+
+    button.button-hover-light:hover {
+        @include hover-shadown(var(--light));
+    } 
+}
