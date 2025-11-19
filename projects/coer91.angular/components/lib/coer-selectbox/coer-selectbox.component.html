@@ -34,7 +34,7 @@
                 [disabled]="!isEnabled"
                 [minLength]="minLength()"
                 [maxLength]="maxLength()"
-                [placeholder]="IsOnlyWhiteSpace(this.label()) ? placeholder() : ''"
+                [placeholder]="_placeholder"
                 (input)="_SetSearch(component.value)" 
                 [ngStyle]="{ 'text-align': textPosition() }" 
             />

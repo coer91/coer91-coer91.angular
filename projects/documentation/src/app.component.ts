@@ -17,7 +17,7 @@ export class AppComponent {
     protected readonly sele = viewChild.required<CoerSelectBox<any>>('sele'); 
     protected test2 = true;
     protected test3 = '';
-    protected test4 = { id: 9,  name: 'Heola9' }
+    protected test4 = null
 
 
     Log(event: any, value?: any) {
@@ -27,7 +27,7 @@ export class AppComponent {
 
     constructor() {
          setTimeout(() => {
-            this.sele().Focus();
+            this.sele().Select(x => x.name.equals('Hola9'));
          }, 3000)
     }
 }

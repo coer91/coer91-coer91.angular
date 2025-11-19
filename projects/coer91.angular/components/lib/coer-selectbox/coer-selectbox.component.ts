@@ -129,6 +129,14 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
 
 
     //getter
+    public get _placeholder(): string {
+        return (this.IsNotOnlyWhiteSpace(this._value) && this._search().isOnlyWhiteSpace()) 
+            ? (this._value as any)[this.displayProperty()]
+            : (this.label().isOnlyWhiteSpace() ? this.placeholder() : ''); 
+    }
+
+
+    //getter
     protected get _showClearButton(): boolean {
         return this.showClearButton()
             && this.isEnabled 
@@ -317,4 +325,29 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
         const _item = { ...item };
         if(Tools.HasProperty(_item, 'index')) delete _item['index']; 
     } 
+
+
+    /** */
+    public Unselect(): void {
+        this._search.set('');
+        this.setValue(null);
+        this.Blur(); 
+    }
+
+
+    /**  */
+    public Select(callback: number | string | ((row: T) => boolean)): T | null {
+        let item: T | null = null;
+
+        if(Tools.IsFunction(callback)) {
+            item = this.dataSource().find(callback as any) || null; 
+        } 
+         
+        else {
+            item = this.dataSource().find((x: any) => String(x?.id || '') == String(callback)) || null;
+        }
+
+        this.setValue(item);
+        return Tools.BreakReference(item);
+    }  
 }
