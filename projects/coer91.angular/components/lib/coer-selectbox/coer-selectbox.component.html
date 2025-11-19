@@ -82,7 +82,7 @@
 
         <div [ngClass]="{ 'line': true, 'focus': _isFocused, 'isInvalid': (isInvalid() && isEnabled) }"></div>
 
-        <ul [ngStyle]="{ 'max-height' : (_isCollapsed() ? '0px' : '175px') }">
+        <ul [id]="_id + '-options'" [ngStyle]="{ 'max-height' : (_isCollapsed() ? '0px' : '175px') }">
             @for(item of _dataSource(); track item.index) {
                 <li [id]="_id + '-index' + item.index" [ngClass]="{ 'focus': _index() == item.index }" (click)="_ClickOption(item)"> 
                     <i></i> 

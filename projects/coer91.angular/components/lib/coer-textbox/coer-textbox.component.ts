@@ -162,7 +162,6 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
             Tools.Sleep().then(() => {
                 this._htmlElement.focus();
                 if(select) this._htmlElement.select();
-                this.ScrollToElement();
                 this._isFocused = true;
             });            
         }

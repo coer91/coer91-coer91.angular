@@ -21,6 +21,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     protected readonly _index = signal<number>(-1);
     private _searchTimeOut$!: ReturnType<typeof setTimeout>;
     protected _htmlElementContainer!: HTMLInputElement; 
+    protected _htmlElementOptions!: HTMLInputElement; 
     protected _htmlElement!: HTMLInputElement; 
     protected _isHoverElement: boolean = false;
     protected _isFocused: boolean = false;
@@ -79,6 +80,8 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     //AfterViewInit
     async ngAfterViewInit() {
         await Tools.Sleep();
+        this._htmlElementOptions = HTMLElements.GetElementById(`${this._id}-options`) as HTMLInputElement;
+
         this._htmlElementContainer = HTMLElements.GetElementById(`${this._id}-container`) as HTMLInputElement;
         this._htmlElementContainer.addEventListener('mouseenter', this._onMouseEnter);
         this._htmlElementContainer.addEventListener('mouseleave', this._onMouseLeave);
@@ -232,8 +235,6 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
             this._htmlElement.select();
             this._isCollapsed.set(false);  
             this._isFocused = true;
-                       
-            this.ScrollToElement();
             
             if(Tools.IsNotNull(this._value) && Tools.HasProperty(this._value, this.displayProperty())) {
                 const displayProperty = (this._value as any)[this.displayProperty()];
@@ -282,7 +283,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
 
     /** */
     public ScrollToElement(): void {
-        HTMLElements.ScrollToElement(this._htmlElement); 
+        HTMLElements.ScrollToElement(this._htmlElement);
     } 
 
 
