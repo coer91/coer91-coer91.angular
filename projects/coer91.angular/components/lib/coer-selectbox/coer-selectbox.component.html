@@ -31,7 +31,7 @@
                 [id]="_id"
                 [name]="_id"
                 [value]="_search()"
-                [disabled]="!isEnabled"
+                [disabled]="!_isEnabled"
                 [minLength]="minLength()"
                 [maxLength]="maxLength()"
                 [placeholder]="_placeholder"
@@ -48,7 +48,7 @@
                     [ngClass]="{ 
                         'focus'        : (_isFocused || IsNotOnlyWhiteSpace(_value)), 
                         'color-primary': (_isFocused && !isInvalid()),
-                        'color-danger' : (isInvalid() && isEnabled)
+                        'color-danger' : (isInvalid() && _isEnabled)
                     }">{{ _label }}</label>
             }
 
@@ -60,19 +60,19 @@
                     </span>
                 } 
 
-                @else if(isInvalid() && isEnabled) {
+                @else if(isInvalid() && _isEnabled) {
                     <span>
                         <i class="i91-circle-exclamation-fill font-size-normal color-red"></i>
                     </span>
                 }
         
-                @else if(isValid() && isEnabled) {
+                @else if(isValid() && _isEnabled) {
                     <span>
                         <i class="i91-circle-check-fill font-size-normal color-green"></i>
                     </span>
                 } 
 
-                @if(isEnabled) {
+                @if(_isEnabled) {
                     <span (click)="Toggle()">
                         <i class="i91-angle-up font-size-30px" [ngClass]="{ 'i91-180deg': !_isCollapsed(), 'color-primary' : !_isCollapsed() }"></i>
                     </span>  
@@ -80,7 +80,7 @@
             </span>
         }
 
-        <div [ngClass]="{ 'line': true, 'focus': _isFocused, 'isInvalid': (isInvalid() && isEnabled) }"></div>
+        <div [ngClass]="{ 'line': true, 'focus': _isFocused, 'isInvalid': (isInvalid() && _isEnabled) }"></div>
 
         <ul [id]="_id + '-options'" [ngStyle]="{ 'max-height' : (_isCollapsed() ? '0px' : '175px') }">
             @for(item of _dataSource(); track item.index) {

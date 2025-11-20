@@ -84,7 +84,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
 
 
     //getter
-    public get isEnabled(): boolean {
+    protected get _isEnabled(): boolean {
         return this.isLoading()   === false 
             && this.isReadonly()  === false
             && this.isInvisible() === false
@@ -113,7 +113,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     //getter
     protected get _showClearButton() {
         return this.showClearButton()
-            && this.isEnabled 
+            && this._isEnabled 
             && this.IsNotOnlyWhiteSpace(this._value) 
     }
 
@@ -122,13 +122,13 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     protected get _showSearchButton() {
         return this.showSearchButton()
             && !this._showClearButton
-            && this.isEnabled
+            && this._isEnabled
     } 
 
 
     /** */
     private _onKeyup = (event: KeyboardEvent) => {
-        if(!this.isEnabled) return;
+        if(!this._isEnabled) return;
 
         if (event.key === 'Enter') {
             this.onKeyupEnter.emit(this._value);
@@ -143,7 +143,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
 
     /** */
     private _onFocus = () => {
-        if(this.isEnabled) {
+        if(this._isEnabled) {
             if(this.selectOnFocus() === true) this.Focus(true);
             this._isFocused = true;
         }
@@ -157,11 +157,12 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     }  
 
     /** */
-    public Focus(select: boolean = false): void {
-        if(this.isEnabled) {
+    public Focus(select: boolean = false, scrollToElement: boolean = false): void {
+        if(this._isEnabled) {
             Tools.Sleep().then(() => {
                 this._htmlElement.focus();
                 if(select) this._htmlElement.select();
+                if(scrollToElement) this.ScrollToElement();
                 this._isFocused = true;
             });            
         }

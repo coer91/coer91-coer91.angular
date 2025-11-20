@@ -120,7 +120,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
 
 
     //getter
-    public get isEnabled(): boolean {
+    protected get _isEnabled(): boolean {
         return this.isLoading()   === false 
             && this.isReadonly()  === false
             && this.isInvisible() === false
@@ -129,7 +129,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
 
 
     //getter
-    public get _placeholder(): string {
+    protected get _placeholder(): string {
         return (this.IsNotOnlyWhiteSpace(this._value) && this._search().isOnlyWhiteSpace()) 
             ? (this._value as any)[this.displayProperty()]
             : (this.label().isOnlyWhiteSpace() ? this.placeholder() : ''); 
@@ -139,7 +139,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     //getter
     protected get _showClearButton(): boolean {
         return this.showClearButton()
-            && this.isEnabled 
+            && this._isEnabled 
             && this.IsNotOnlyWhiteSpace(this._value)
             && this.IsOnlyWhiteSpace(this._search()) 
     }
@@ -218,7 +218,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     /** */
     private _onFocus = () => {
         if(this._isLoading) return; 
-        if(this.isEnabled) this.Focus(true);
+        if(this._isEnabled) this.Focus(true);
         else this.Blur(); 
     } 
 
@@ -234,8 +234,8 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
 
 
     /** */
-    public async Focus(open: boolean = true) { 
-        if(this.isEnabled) {
+    public async Focus(open: boolean = true, scrollToElement: boolean = false) { 
+        if(this._isEnabled) {
             this._isLoading = true;  
             this._applySearch.set(false);
             await Tools.Sleep();             
@@ -244,6 +244,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
             this._isCollapsed.set(false);  
             this._isFocused = true;
             
+            if(scrollToElement) this.ScrollToElement();
             if(Tools.IsNotNull(this._value) && Tools.HasProperty(this._value, this.displayProperty())) {
                 const displayProperty = (this._value as any)[this.displayProperty()];
                 const index = this._dataSource().findIndex(item => String(item[this.displayProperty()]).equals(displayProperty));
@@ -284,7 +285,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
 
     /** */
     protected Toggle = async () => { 
-        if(!this.isEnabled) return;
+        if(!this._isEnabled) return;
         if(this._isCollapsed()) this.Focus();
         else this.Blur();
     }  

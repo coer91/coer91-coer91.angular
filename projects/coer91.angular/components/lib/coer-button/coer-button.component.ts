@@ -20,96 +20,156 @@ export class CoerButton implements AfterViewInit, OnDestroy {
     public onDestroy = output<void>();
 
     //input
-    public label            = input<string>(''); 
-    public type             = input<'filled' | 'outline' | 'icon' | 'icon-filled' | 'icon-outline'>('filled');
-    public color            = input<'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'navigation' | 'information' | 'dark' | 'light'>('primary');
-    public width            = input<string>('100px');
-    public minWidth         = input<string>('35px');
-    public maxWidth         = input<string>('100px'); 
-    public height           = input<string>('35px');
-    public minHeight        = input<string>('35px');
-    public maxHeight        = input<string>('35px'); 
-    public marginTop        = input<string>('0px');
-    public marginRight      = input<string>('0px');
-    public marginBottom     = input<string>('0px');
-    public marginLeft       = input<string>('0px'); 
-
-
-    constructor() {
-         
-    }
+    public label        = input<string>(''); 
+    public type         = input<'filled' | 'outline' | 'icon' | 'icon-filled' | 'icon-outline' | 'icon-filled-rounded' | 'icon-outline-rounded'>('filled');
+    public color        = input<'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'navigation' | 'information' | 'dark' | 'light'>('primary');
+    public icon         = input<string>('');
+    public iconPosition = input<'left' | 'right'>('left');
+    public isLoading    = input<boolean>(false); 
+    public isReadonly   = input<boolean>(false);
+    public isInvisible  = input<boolean>(false);
+    public isHidden     = input<boolean>(false);
+    public width        = input<string>('100px');
+    public minWidth     = input<string>('35px');
+    public maxWidth     = input<string>('100px'); 
+    public height       = input<string>('35px');
+    public minHeight    = input<string>('35px');
+    public maxHeight    = input<string>('35px'); 
+    public marginTop    = input<string>('0px');
+    public marginRight  = input<string>('0px');
+    public marginBottom = input<string>('0px');
+    public marginLeft   = input<string>('0px'); 
 
     //AfterViewInit
     async ngAfterViewInit() {
         await Tools.Sleep(); 
-        this._htmlElement = HTMLElements.GetElementById(this._id)!;
+        this._htmlElement = HTMLElements.GetElementById(this._id)!; 
+        this._htmlElement.addEventListener('focus', this._onFocus);
+        this.onReady.emit();
     }
 
 
     //OnDestroy
     ngOnDestroy() {
-        
+        this._htmlElement.removeEventListener('focus', this._onFocus);
+        this.onDestroy.emit();
     }  
+
+    /** */
+    private _onFocus = () => {
+        if(!this._isEnabled) this.Blur(); 
+    } 
 
     //computed
     protected _label = computed(() => {
         if(['filled', 'outline'].includes(this.type())) {
-            return Tools.IsOnlyWhiteSpace(this.label()) ? 'Click' : this.label()
+            return this.label().isOnlyWhiteSpace() ? 'Click' : this.label()
         }
 
-        return this.label();
+        return '';
     });
+
+
+    //getter
+    protected get _isEnabled(): boolean {
+        return this.isLoading()   === false 
+            && this.isReadonly()  === false
+            && this.isInvisible() === false
+            && this.isHidden()    === false
+    }
 
     //computed
     protected _width = computed(() => {
-        return this.width();
+        return ['filled', 'outline'].includes(this.type()) ? this.width() : '35px';
     });
 
     //computed
     protected _minWidth = computed(() => {
-        return this.minWidth();
+        return ['filled', 'outline'].includes(this.type()) ? this.minWidth() : '35px';
     });
 
     //computed
     protected _maxWidth = computed(() => {
-        return this.maxWidth();
+        return ['filled', 'outline'].includes(this.type()) ? this.maxWidth() : '35px';
     });
 
     //computed
     protected _height = computed(() => {
-        return this.height();
+        return ['filled', 'outline'].includes(this.type()) ? this.height() : '35px';
     });
 
     //computed
     protected _minHeight = computed(() => {
-        return this.minHeight();
+        return ['filled', 'outline'].includes(this.type()) ? this.minHeight() : '35px';
     });
 
     //computed
     protected _maxHeight = computed(() => {
-        return this.maxHeight();
+        return ['filled', 'outline'].includes(this.type()) ? this.maxHeight() : '35px';
     });
     
     //computed
     protected _borderRadius = computed(() => {
-        return '5px';
+        return ['icon-filled-rounded', 'icon-outline-rounded'].includes(this.type()) ? '25px' : '5px';
     });
 
     //computed
     protected _backgroundColor = computed<string>(() => {
-        return `background-color-${this.color()}`;
+        if(this.isLoading())  return 'background-color-loading animation-fade'; 
+        if(this.isReadonly()) return 'background-color-readonly'; 
+
+        return ['filled', 'icon-filled', 'icon-filled-rounded'].includes(this.type()) 
+            ? `background-color-${this.color()}`
+            : 'background-color-transparent';
     });
 
     //computed
     protected _color = computed<string>(() => {
-        return ['warning', 'light'].includes(this.color())
-            ? 'color-dark' : 'color-light' 
+        if(this.isLoading() || this.isReadonly())  return 'color-gray'; 
+
+        return ['filled', 'icon-filled', 'icon-filled-rounded'].includes(this.type()) 
+            ? (['warning', 'light'].includes(this.color()) ? 'color-dark' : 'color-light') 
+            : `color-${this.color()}`
     });
 
     //computed
     protected _cursor = computed<string>(() => {
-        return 'pointer';
+        return this._isEnabled ? 'pointer' : 'default';
     });
+
+
+    //Output
+    protected _Click(event: any): void {
+        event?.preventDefault();
+        this.Blur();
+        if (this._isEnabled) this.onClick.emit();
+    }
+
+
+    /** */
+    public Click(): void {
+        Tools.Sleep().then(() => this._Click(null));
+    }
+
+
+    /** */
+    public Focus(scrollToElement: boolean = false): void {
+        if(this._isEnabled) {
+            Tools.Sleep().then(() => {
+                this._htmlElement.focus();
+                if(scrollToElement) this.ScrollToElement();
+            });            
+        }
+        
+        else this.Blur(); 
+    }
+
+
+    /** */
+    public Blur(): void {      
+        this._htmlElement.blur();
+    }
+
 
     /** */
     public ScrollToElement(): void {

@@ -1,4 +1,5 @@
-<div class="coer-button animation-fadeIn" 
+<div class="coer-button animation-fadeIn"
+    [ngClass]="{ 'display-none': isHidden() }"
     [ngStyle]="{
         'width'        : _width(),
         'min-width'    : _minWidth(),
@@ -6,23 +7,51 @@
         'height'       : _height(),
         'min-height'   : _minHeight(),
         'max-height'   : _maxHeight()       
-    }">    
+    }">   
     <button type="button"
+        [id]="_id"
         [class]="`${_backgroundColor()} ${_color()}`"
         [ngClass]="{
-            'button-hover-primary'    : this.color().equals('primary'),
-            'button-hover-secondary'  : this.color().equals('secondary'),
-            'button-hover-success'    : this.color().equals('success'),
-            'button-hover-warning'    : this.color().equals('warning'),
-            'button-hover-danger'     : this.color().equals('danger'),
-            'button-hover-navigation' : this.color().equals('navigation'),
-            'button-hover-information': this.color().equals('information'),
-            'button-hover-dark'       : this.color().equals('dark'),
-            'button-hover-light'      : this.color().equals('light')
+            'button-hover-primary'    : _isEnabled && this.color().equals('primary'),
+            'button-hover-secondary'  : _isEnabled && this.color().equals('secondary'),
+            'button-hover-success'    : _isEnabled && this.color().equals('success'),
+            'button-hover-warning'    : _isEnabled && this.color().equals('warning'),
+            'button-hover-danger'     : _isEnabled && this.color().equals('danger'),
+            'button-hover-navigation' : _isEnabled && this.color().equals('navigation'),
+            'button-hover-information': _isEnabled && this.color().equals('information'),
+            'button-hover-dark'       : _isEnabled && this.color().equals('dark'),
+            'button-hover-light'      : _isEnabled && this.color().equals('light'),
+            'button-focus-primary'    : _isEnabled && this.color().equals('primary'),
+            'button-focus-secondary'  : _isEnabled && this.color().equals('secondary'),
+            'button-focus-success'    : _isEnabled && this.color().equals('success'),
+            'button-focus-warning'    : _isEnabled && this.color().equals('warning'),
+            'button-focus-danger'     : _isEnabled && this.color().equals('danger'),
+            'button-focus-navigation' : _isEnabled && this.color().equals('navigation'),
+            'button-focus-information': _isEnabled && this.color().equals('information'),
+            'button-focus-dark'       : _isEnabled && this.color().equals('dark'),
+            'button-focus-light'      : _isEnabled && this.color().equals('light'),
+            'border-solid-2px'        : _isEnabled && ['outline', 'icon-outline', 'icon-outline-rounded'].includes(this.type()),
+            'invisible'               : isInvisible()
         }"
         [ngStyle]="{ 
             'border-radius': _borderRadius(),
             'cursor'       : _cursor()      
-        }"        
-    >{{ _label() }}</button>
+        }"
+        (click)="_Click($event)">
+        
+        <span class="label-container">
+            @if(icon().isNotOnlyWhiteSpace() && iconPosition().equals('left')) {
+                <i [class]="icon()"></i> 
+            }
+            
+            @if(['filled', 'outline'].includes(type())) {
+                <span>{{ _label() }}</span> 
+            }
+            
+            @if(icon().isNotOnlyWhiteSpace() && iconPosition().equals('right')) {
+                <i [class]="icon()"></i> 
+            }
+        </span>
+    
+    </button>
 </div>    

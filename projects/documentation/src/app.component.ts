@@ -1,7 +1,7 @@
 import { Tools } from 'coer91.tools';
 import { RootModule } from './root/root.module'; 
 import { Component, viewChild } from '@angular/core'; 
-import { CoerAccordion, CoerSelectBox, CoerTextBox } from '@library/components';
+import { CoerAccordion, CoerButton, CoerSelectBox, CoerTextBox } from '@library/components';
 
 @Component({
     selector: 'app-root',
@@ -14,6 +14,7 @@ export class AppComponent {
     //Elements
     protected readonly ddddddd = viewChild.required<CoerAccordion>('ddddddd'); 
     protected readonly dddsdddd = viewChild.required<CoerTextBox>('dddsdddd'); 
+    protected readonly btt = viewChild.required<CoerButton>('btt'); 
     protected readonly sele = viewChild.required<CoerSelectBox<any>>('sele'); 
     protected test2 = true;
     protected test3 = '';
@@ -27,7 +28,7 @@ export class AppComponent {
 
     constructor() {
          setTimeout(() => {
-            this.sele().Select(x => x.name.equals('Hola9'));
+            this.btt().Focus();
          }, 3000)
     }
 }

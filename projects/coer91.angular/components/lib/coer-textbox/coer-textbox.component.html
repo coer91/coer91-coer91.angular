@@ -31,7 +31,7 @@
                 [id]="_id"
                 [name]="_id"
                 [value]="_value"
-                [disabled]="!isEnabled"
+                [disabled]="!_isEnabled"
                 [minLength]="minLength()"
                 [maxLength]="maxLength()"
                 [placeholder]="IsOnlyWhiteSpace(this.label()) ? placeholder() : ''"
@@ -48,19 +48,19 @@
                     [ngClass]="{ 
                         'focus'        : (_isFocused || IsNotOnlyWhiteSpace(_value)),  
                         'color-primary': (_isFocused && !isInvalid()),
-                        'color-danger' : (isInvalid() && isEnabled)
+                        'color-danger' : (isInvalid() && _isEnabled)
                     }">{{ _label }}</label>
             }
 
             @if(_paddingRight() != '10px') {
                 <span class="icon-container">
-                    @if(isInvalid() && isEnabled) {
+                    @if(isInvalid() && _isEnabled) {
                         <span>
                             <i class="i91-circle-exclamation-fill font-size-normal color-red"></i>
                         </span>
                     }
         
-                    @else if(isValid() && isEnabled) {
+                    @else if(isValid() && _isEnabled) {
                         <span>
                             <i class="i91-circle-check-fill font-size-normal color-green"></i>
                         </span>
@@ -81,6 +81,6 @@
             }
         }
 
-        <div [ngClass]="{ 'line': true, 'focus': _isFocused, 'isInvalid': (isInvalid() && isEnabled) }"></div>
+        <div [ngClass]="{ 'line': true, 'focus': _isFocused, 'isInvalid': (isInvalid() && _isEnabled) }"></div>
     </div>
 </div>   
