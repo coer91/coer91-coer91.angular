@@ -21,7 +21,7 @@ export class CoerButton implements AfterViewInit, OnDestroy {
 
     //input
     public label        = input<string>(''); 
-    public type         = input<'filled' | 'outline' | 'icon' | 'icon-filled' | 'icon-outline' | 'icon-filled-rounded' | 'icon-outline-rounded'>('filled');
+    public type         = input<'filled' | 'outline' | 'icon' | 'icon-rounded' | 'icon-filled' | 'icon-filled-rounded' | 'icon-outline'  | 'icon-outline-rounded'>('filled');
     public color        = input<'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'navigation' | 'information' | 'dark' | 'light'>('primary');
     public icon         = input<string>('');
     public iconPosition = input<'left' | 'right'>('left');
@@ -110,7 +110,7 @@ export class CoerButton implements AfterViewInit, OnDestroy {
     
     //computed
     protected _borderRadius = computed(() => {
-        return ['icon-filled-rounded', 'icon-outline-rounded'].includes(this.type()) ? '25px' : '5px';
+        return ['icon-rounded', 'icon-filled-rounded', 'icon-outline-rounded'].includes(this.type()) ? '25px' : '5px';
     });
 
     //computed

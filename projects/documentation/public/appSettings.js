@@ -1,10 +1,10 @@
 const appSettings = {
     appInfo: {
         id: 1,
-        name: 'My Elements',
-        logoPath: '',
-        logoWidth: '',
-        showLogo: true
+        project: 'COER 91',
+        title: 'COER 91',
+        storage: 'coer91',
+        version: '0.0.0'
     },
     webAPI: {
         development: {
@@ -14,13 +14,10 @@ const appSettings = {
             mySystem: '' 
         }
     }, 
-    login: {
-        static: false
+    dateTime: { 
+        format: 'MDY'
     },
     navigation: {
         static: true
     },
-    dateTime: { 
-        format: 'MDY'
-    }
 }

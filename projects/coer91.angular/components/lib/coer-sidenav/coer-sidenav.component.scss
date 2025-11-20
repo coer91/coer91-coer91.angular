@@ -1,4 +1,4 @@
-nav.coer-sidenav {    
+div.coer-sidenav {    
     position: absolute !important;
     top: 40px !important;
     left: 0px !important;
@@ -6,16 +6,73 @@ nav.coer-sidenav {
     right: 0px;
     width: 225px !important; 
     max-width: 225px !important; 
-    background-color: var(--dark) !important;   
+    background-color: var(--sidenav) !important; 
     transition: transform 0.5s ease !important;
 
-    div {
+    nav {
+        position: inherit !important;
+        top: 0px !important;
+        left: inherit !important;
+        bottom: inherit !important;
+        right: inherit !important;
+
+        ul.lv1 {
+            li.lv1 { 
+                min-height: 35px !important; 
+                
+                cursor: pointer !important;  
+                color: var(--sidenav-color);
+
+                div.lv1-option,
+                div.lv2-option,
+                div.lv3-option {
+                    height: calc(35px - 0.800px) !important;
+                    max-height: calc(35px - 0.800px) !important;
+                    padding-left: 10px !important;
+                    padding-right: 10px !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    gap: 10px !important;
+                    border-bottom: 1px solid color-mix(in srgb, var(--body), var(--sidenav) 90%) !important; 
+                   
+                    i { 
+                        width: 15px !important;
+                        min-width: 15px !important;
+                        max-width: 15px !important;
+                        height: 15px !important;
+                        min-height: 15px !important;
+                        max-height: 15px !important;
+                    }
+
+                    span {
+                        white-space: nowrap !important;
+                        overflow: hidden !important;
+                        font-weight: bold !important;
+                    }
+                }
+
+                div.lv2-option {
+                    padding-left: 25px !important;
+                }
+
+                div.lv3-option {
+                    padding-left: 25px !important;
+                }
+            }
+
+            div.option:hover {
+                background-color: color-mix(in srgb, var(--body), var(--sidenav) 90%);
+            }
+        }
+    }
+
+    div.coer-sidenav-content {
        width: 100vw !important;
        transform: translateX(225px) !important;
        transition: width 0.5s ease !important;
     }
 
-    div.coer-sidenav-open {
+    div.coer-sidenav-content.coer-sidenav-open {
         width: calc(100vw - 225px) !important;        
     }
 }

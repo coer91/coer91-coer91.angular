@@ -1,6 +1,6 @@
-<coer-toolbar></coer-toolbar>
+<coer-toolbar (onClickToogle)="sidenav.Toogle()"></coer-toolbar>
 
-<coer-sidenav>
+<coer-sidenav #sidenav>
 
     <div class="container-section width-300px"> 
     <coer-selectbox 
@@ -32,7 +32,7 @@
  
 
    <div class="container-section width-300px"> 
-        <coer-button #btt icon="i91-alarm-fill" color="danger" type="icon" [isReadonly]="false" [isLoading]="false"  ></coer-button>
+        <coer-button #btt icon="i91-alarm-fill" color="danger" type="icon-rounded" [isReadonly]="false" [isLoading]="false"  ></coer-button>
 </div> 
 
  

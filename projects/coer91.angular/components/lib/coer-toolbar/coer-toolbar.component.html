@@ -1,12 +1,13 @@
 <header class="coer-toolbar">
     <div class="coer-toolbar-toogle">
-                <!-- {/* <DMButton
-                    type='icon' 
-                    color='navigation' 
-                    icon='i91-bars'  
-                />  */} -->
+        <coer-button 
+            icon="i91-bars" 
+            color="navigation" 
+            type="icon-rounded"  
+            (onClick)="onClickToogle.emit()"
+        ></coer-button>
 
-        <h4> </h4>
+        <h3>{{ _appSettings.appInfo.title }}</h3>
     </div> 
 
     <div class="coer-toolbar-user"> 

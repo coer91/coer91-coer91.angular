@@ -1,0 +1,72 @@
+import { Component, input, AfterViewInit, output, OnDestroy, computed, EffectRef, effect, signal } from '@angular/core';
+import {  HTMLElements, Tools }from 'coer91.tools';
+
+@Component({
+    selector: 'coer-sidenav-accordion',
+    templateUrl: './coer-sidenav-accordion.component.html', 
+    styleUrl: './coer-sidenav-accordion.component.scss', 
+    standalone: false
+})
+export class CoerSidenavAccordion implements AfterViewInit, OnDestroy {       
+
+    //Variables
+    protected readonly _id = Tools.GetGuid("coer-sidenav-accordion"); 
+    protected readonly _isCollapsed = signal<boolean>(true); 
+    protected readonly IsNotOnlyWhiteSpace = Tools.IsNotOnlyWhiteSpace;
+    protected _htmlElement!: HTMLElement; 
+     
+    //output
+    public onOpen    = output<void>();
+    public onClose   = output<void>();
+    public onReady   = output<void>();
+    public onDestroy = output<void>();
+
+    //input
+    public title        = input<string | null | undefined>('');
+    public icon         = input<string | null | undefined>('');       
+    public paddingLeft  = input<string>('0px');  
+
+    //AfterViewInit
+    async ngAfterViewInit() {
+        await Tools.Sleep(); 
+        this._htmlElement = HTMLElements.GetElementById(this._id)!;
+        this.onReady.emit();
+    }
+
+
+    //OnDestroy
+    ngOnDestroy() { 
+        this.onDestroy.emit();
+    }   
+
+
+    /** */
+    protected Toggle = () => { 
+        if(this._isCollapsed()) this.Open();
+        else this.Close();
+    }
+
+
+    /** */
+    public Open(): void {
+        this._isCollapsed.set(false); 
+
+        Tools.Sleep().then(() => {              
+            HTMLElements.ScrollToElement(this._htmlElement);  
+            this.onOpen.emit();
+        });
+    }
+
+
+    /** */
+    public Close(): void {
+        this._isCollapsed.set(true);
+        Tools.Sleep().then(() => this.onClose.emit());
+    }
+
+
+    /** */
+    public ScrollToElement(): void {
+        HTMLElements.ScrollToElement(this._htmlElement); 
+    }
+}

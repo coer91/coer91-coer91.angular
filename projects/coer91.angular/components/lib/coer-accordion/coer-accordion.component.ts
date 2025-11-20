@@ -27,7 +27,7 @@ export class CoerAccordion implements AfterViewInit, OnDestroy {
     public icon          = input<string>('');
     public type          = input<'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'navigation' | 'information' | 'dark' | 'light'>('primary');
     public bodyColor     = input<boolean>(false);
-    public collapsed     = input<boolean>(false);
+    public isCollapsed   = input<boolean>(false);
     public isReadonly    = input<boolean>(false);
     public isLoading     = input<boolean>(false);
     public scrollOnOpen  = input<boolean>(false);
@@ -43,7 +43,7 @@ export class CoerAccordion implements AfterViewInit, OnDestroy {
 
     constructor() {
         this._effectValue = effect(() => { 
-            if(this.collapsed()) this.Close();
+            if(this.isCollapsed()) this.Close();
             else this.Open();
         });
     }

@@ -1,0 +1,47 @@
+div.coer-sidenav-accordion > div {    
+    overflow: hidden !important;
+
+    div.coer-accordion-header {
+        height: calc(35px - 0.800px) !important; 
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;  
+        padding-right: 5px;
+        transition: border-radius 0.3s ease-in-out !important;
+        border-bottom: 1px solid color-mix(in srgb, var(--body), var(--sidenav) 90%) !important; 
+
+        h4 {
+            display: inherit !important;
+            align-items: inherit !important;
+            gap: 10px !important;
+            white-space: nowrap !important; 
+            width: calc(100% - 35px) !important;  
+            cursor: inherit !important;
+
+            span { 
+                overflow: hidden !important; 
+                max-width: calc(100% - 20px) !important;
+            }
+        }
+
+        button {
+            padding: 0px !important;
+            background-color: transparent !important;
+            border: none !important;
+            cursor: inherit !important;
+            color: inherit !important;
+
+            i {
+                transition: transform 0.3s ease-in-out !important;
+                color: inherit !important;
+            }
+        }
+    }
+
+    div.coer-accordion-body {
+        border-radius: 0px 0px 5px 5px !important;  
+        height: calc(100% - 35px) !important; 
+        transition: all 0.3s ease-in-out; 
+        position: relative;
+    }
+}
