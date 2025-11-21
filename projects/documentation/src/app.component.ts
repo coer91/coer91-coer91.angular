@@ -2,6 +2,8 @@ import { Tools } from 'coer91.tools';
 import { RootModule } from './root/root.module'; 
 import { Component, viewChild } from '@angular/core'; 
 import { CoerAccordion, CoerButton, CoerSelectBox, CoerTextBox } from '@library/components';
+import { NAVIGATION } from './navigation';
+import { navigationSIGNAL } from 'projects/coer91.angular/signals';
 
 @Component({
     selector: 'app-root',
@@ -27,8 +29,6 @@ export class AppComponent {
 
 
     constructor() {
-         setTimeout(() => {
-            this.btt().Focus();
-         }, 3000)
+        navigationSIGNAL.set(NAVIGATION)
     }
 }

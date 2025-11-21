@@ -18,8 +18,7 @@ div.coer-sidenav {
 
         ul.lv1 {
             li.lv1 { 
-                min-height: 35px !important; 
-                
+                min-height: 35px !important;                 
                 cursor: pointer !important;  
                 color: var(--sidenav-color);
 
@@ -57,6 +56,10 @@ div.coer-sidenav {
 
                 div.lv3-option {
                     padding-left: 25px !important;
+                }
+
+                div.option.selected {
+                    color: var(--navigation) !important;
                 }
             }
 

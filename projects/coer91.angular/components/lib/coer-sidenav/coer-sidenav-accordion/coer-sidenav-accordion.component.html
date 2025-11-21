@@ -1,13 +1,17 @@
 <div class="coer-sidenav-accordion" title="">
-    <div>
-        <div [id]="_id" [class]="'coer-accordion-header'" (click)="Toggle()">        
+    <div [ngClass]="{ 
+        `expanded-lv1`: (!isCollapsed() && level() == 1),
+        `expanded-lv2`: (!isCollapsed() && level() == 2)
+        }">
+        
+        <div [id]="_id" class="coer-accordion-header" (click)="Toggle()">        
             <h4 [ngStyle]="{ paddingLeft: paddingLeft() }">
                 @if(IsNotOnlyWhiteSpace(icon())) {
                     <i [class]="icon()"></i>
                 }
-                <span>{{ title() || '' }}</span>
+                <span>{{ title() || '' }} {{ level() }} </span>
             </h4>
-            
+          
             <button type="button">
                 <i class="i91-angle-up font-size-30px" [ngClass]="{ 'i91-180deg': !_isCollapsed() }"></i> 
             </button>

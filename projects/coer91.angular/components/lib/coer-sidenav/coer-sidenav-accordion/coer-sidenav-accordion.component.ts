@@ -25,6 +25,7 @@ export class CoerSidenavAccordion implements AfterViewInit, OnDestroy {
     public title        = input<string | null | undefined>('');
     public icon         = input<string | null | undefined>('');       
     public paddingLeft  = input<string>('0px');  
+    public level        = input<1 | 2>(1);  
 
     //AfterViewInit
     async ngAfterViewInit() {
@@ -38,6 +39,10 @@ export class CoerSidenavAccordion implements AfterViewInit, OnDestroy {
     ngOnDestroy() { 
         this.onDestroy.emit();
     }   
+
+
+    //
+    public isCollapsed = computed<boolean>(() => this._isCollapsed());
 
 
     /** */
