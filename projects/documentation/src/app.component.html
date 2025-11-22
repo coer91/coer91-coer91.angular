@@ -1,8 +1,8 @@
 <coer-toolbar (onClickToogle)="sidenav.Toogle()"></coer-toolbar>
 
-<coer-sidenav #sidenav>
+<coer-sidenav #sidenav [navigation]="_navigation">
 
-    <div class="container-section width-300px"> 
+    <div class="container-section "> 
     <coer-selectbox 
         #sele
         [(ngModel)]="test4"
@@ -32,6 +32,8 @@
  
 
    <div class="container-section width-300px"> 
+        <coer-button #btt icon="i91-alarm-fill" color="danger" type="icon-rounded" [isReadonly]="false" [isLoading]="false"  ></coer-button>
+
         <coer-button #btt icon="i91-alarm-fill" color="danger" type="icon-rounded" [isReadonly]="false" [isLoading]="false"  ></coer-button>
 </div> 
 

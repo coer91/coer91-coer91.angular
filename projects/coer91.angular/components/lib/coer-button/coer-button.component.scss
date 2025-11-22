@@ -7,7 +7,9 @@
     outline: 3px double $color;
 }
 
-div.coer-button {    
+div.coer-button {   
+    display: inline-block !important;
+     
     button { 
         width: inherit !important;
         min-width: inherit !important;

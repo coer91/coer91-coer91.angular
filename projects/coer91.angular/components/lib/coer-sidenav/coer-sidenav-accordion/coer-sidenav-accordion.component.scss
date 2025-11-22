@@ -1,15 +1,17 @@
 div.coer-sidenav-accordion { 
     div {    
-        overflow: hidden !important;
+        overflow: hidden !important;  
 
         div.coer-accordion-header {
-            height: calc(35px - 0.800px) !important; 
+            height: calc(40px - 0.800px) !important; 
             display: flex !important;
             align-items: center !important;
             justify-content: space-between !important;  
             padding-right: 5px;
             transition: border-radius 0.3s ease-in-out !important;
             border-bottom: 1px solid color-mix(in srgb, var(--body), var(--sidenav) 90%) !important;  
+            background-color:var(--sidenav);
+            transition: all 0.3s ease-in-out !important;
 
             h4 {
                 display: inherit !important;
@@ -38,19 +40,29 @@ div.coer-sidenav-accordion {
             }
         } 
 
+        div.coer-accordion-header:hover {
+            background-color: color-mix(in srgb, var(--body), var(--sidenav) 90%) !important;
+        }
+
         div.coer-accordion-body {
             border-radius: 0px 0px 5px 5px !important;  
             height: calc(100% - 35px) !important; 
+            background-color:var(--sidenav) !important;
             transition: all 0.3s ease-in-out; 
             position: relative;
         }
     }
 
-    div.expanded-lv1 > div.coer-accordion-header {
-        background-color: var(--navigation) !important;
+    div.coer-accordion-header.selected {
+        color: var(--navigation) !important; 
     }
 
+    div.expanded-lv1 > div.coer-accordion-header {
+        background-color: var(--navigation) !important; 
+        color: var(--inherit) !important; 
+    } 
+
     div.expanded-lv2 > div.coer-accordion-header {
-        color: var(--navigation) !important;
-    }
+        color: var(--navigation) !important; 
+    } 
 }

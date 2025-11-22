@@ -9,8 +9,7 @@ import {  HTMLElements, Tools }from 'coer91.tools';
 })
 export class CoerSidenavAccordion implements AfterViewInit, OnDestroy {       
 
-    //Variables
-    protected readonly _id = Tools.GetGuid("coer-sidenav-accordion"); 
+    //Variables 
     protected readonly _isCollapsed = signal<boolean>(true); 
     protected readonly IsNotOnlyWhiteSpace = Tools.IsNotOnlyWhiteSpace;
     protected _htmlElement!: HTMLElement; 
@@ -22,15 +21,16 @@ export class CoerSidenavAccordion implements AfterViewInit, OnDestroy {
     public onDestroy = output<void>();
 
     //input
+    public id           = input<string>('');
     public title        = input<string | null | undefined>('');
     public icon         = input<string | null | undefined>('');       
     public paddingLeft  = input<string>('0px');  
-    public level        = input<1 | 2>(1);  
+    public level        = input<'LV1' | 'LV2'>('LV1');  
 
     //AfterViewInit
     async ngAfterViewInit() {
         await Tools.Sleep(); 
-        this._htmlElement = HTMLElements.GetElementById(this._id)!;
+        this._htmlElement = HTMLElements.GetElementById(this.id())!;
         this.onReady.emit();
     }
 

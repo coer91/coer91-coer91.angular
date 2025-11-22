@@ -8,6 +8,7 @@ div.coer-sidenav {
     max-width: 225px !important; 
     background-color: var(--sidenav) !important; 
     transition: transform 0.5s ease !important;
+    z-index: 100 !important;
 
     nav {
         position: inherit !important;
@@ -15,23 +16,26 @@ div.coer-sidenav {
         left: inherit !important;
         bottom: inherit !important;
         right: inherit !important;
+        overflow: auto !important;
+        z-index: inherit !important;
 
         ul.lv1 {
             li.lv1 { 
-                min-height: 35px !important;                 
+                min-height: 40px !important;                 
                 cursor: pointer !important;  
                 color: var(--sidenav-color);
 
                 div.lv1-option,
                 div.lv2-option,
                 div.lv3-option {
-                    height: calc(35px - 0.800px) !important;
-                    max-height: calc(35px - 0.800px) !important;
+                    height: calc(40px - 0.800px) !important;
+                    max-height: calc(40px - 0.800px) !important;
                     padding-left: 10px !important;
                     padding-right: 10px !important;
                     display: flex !important;
                     align-items: center !important;
                     gap: 10px !important;
+                    background-color:var(--sidenav);
                     border-bottom: 1px solid color-mix(in srgb, var(--body), var(--sidenav) 90%) !important; 
                    
                     i { 
@@ -64,18 +68,27 @@ div.coer-sidenav {
             }
 
             div.option:hover {
-                background-color: color-mix(in srgb, var(--body), var(--sidenav) 90%);
+                background-color: color-mix(in srgb, var(--body), var(--sidenav) 90%) !important;
             }
         }
     }
 
-    div.coer-sidenav-content {
-       width: 100vw !important;
-       transform: translateX(225px) !important;
-       transition: width 0.5s ease !important;
-    }
+    div.coer-sidenav-content { 
+       transition: width 0.5s ease !important;  
+       
+       div.backdrop {
+           background-color: rgba(128, 128, 128, 0.500);
+       }
+    } 
+}
 
-    div.coer-sidenav-content.coer-sidenav-open {
-        width: calc(100vw - 225px) !important;        
-    }
+div.backdrop { 
+    position: absolute !important;
+    top: 0px !important; 
+    right: 0px !important; 
+    bottom: 0px !important; 
+    left: 0px !important; 
+    backdrop-filter: blur(1.5px);
+    background-color: rgb(128, 128, 128);
+    z-index: 99 !important; 
 }

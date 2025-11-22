@@ -1,9 +1,8 @@
-import { Tools } from 'coer91.tools';
 import { RootModule } from './root/root.module'; 
 import { Component, viewChild } from '@angular/core'; 
 import { CoerAccordion, CoerButton, CoerSelectBox, CoerTextBox } from '@library/components';
 import { NAVIGATION } from './navigation';
-import { navigationSIGNAL } from 'projects/coer91.angular/signals';
+
 
 @Component({
     selector: 'app-root',
@@ -22,6 +21,8 @@ export class AppComponent {
     protected test3 = '';
     protected test4 = null
 
+    protected _navigation: any[] = [];
+
 
     Log(event: any, value?: any) {
         console.log({ event, value })
@@ -29,6 +30,7 @@ export class AppComponent {
 
 
     constructor() {
-        navigationSIGNAL.set(NAVIGATION)
+         
+            this._navigation = NAVIGATION 
     }
 }
